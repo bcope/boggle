@@ -1,0 +1,60 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.up {
+
+}
+
+.right {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.left {
+  /* Safari */
+  -webkit-transform: rotate(-270deg);
+  /* Firefox */
+  -moz-transform: rotate(-270deg);
+  /* IE */
+  -ms-transform: rotate(-270deg);
+  /* Opera */
+  -o-transform: rotate(-270deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+.down {
+  /* Safari */
+  -webkit-transform: rotate(-180deg);
+  /* Firefox */
+  -moz-transform: rotate(-180deg);
+  /* IE */
+  -ms-transform: rotate(-180deg);
+  /* Opera */
+  -o-transform: rotate(-180deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+
+.letter {
+  font-size: 3em;
+  font-family: monospace;
+  border: 1px solid black;
+  margin: 3px;
+  padding: 0 11px;
+}
