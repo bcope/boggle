@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Boggle</title>
     <link type="text/css" rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
   </head>
   <body>
     <header>
@@ -12,8 +13,9 @@
     <div id="board" class="column">
     </div>
     <nav>
-      <button type="button" name="button">Start Timer</button>
-      <button type="button" name="button">Reset Board</button>
+      <div id="timer"></div>
+      <button type="button" name="button" onclick="startTimer(currentTimer);">Start Timer</button>
+      <button type="button" name="button" onclick="createBoard(fourByFour);">Reset Board</button>
     </nav>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>

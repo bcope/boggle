@@ -1,3 +1,14 @@
+body {
+  /*font-family: 'Roboto Mono', monospace;*/
+  font-family: monospace;
+}
+
+header {
+  font-size: 3em;
+  font-weight: bold;
+  color: gray;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -51,10 +62,34 @@
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 }
 
+.letter-container {
+  border: 2px solid gray;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  height: 60px;
+  width: 60px;
+  margin: 3px;
+  align-items: center;
+  vertical-align: center;
+}
+
 .letter {
   font-size: 3em;
-  font-family: monospace;
-  border: 1px solid black;
-  margin: 3px;
-  padding: 0 11px;
+  /*padding: 0 11px;*/
+  text-align: center;
+  vertical-align: center;
+  margin-top: 6px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.warning {
+  color: red;
+}
+
+.hidden {
+  display: none;
 }
