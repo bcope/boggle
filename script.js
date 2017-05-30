@@ -1,54 +1,77 @@
 // blocks ======================================================================
 // must have a length that is a square number
-var fourByFour = [
-  ['A','A','E','E','G','N'],
-  ['A','C','H','O','P','S'],
-  ['E','E','G','H','N','W'],
-  ['E','H','R','T','V','W'],
-  ['R','I','L','X','E','D'],
-  ['O','S','S','E','I','T'],
-  ['A','P','F','S','K','F'],
-  ['T','A','O','O','W','T'],
-  ['T','E','L','R','Y','T'],
-  ['O','M','C','I','U','T'],
-  ['D','Y','V','E','R','L'],
-  ['H','L','R','N','Z','N'],
-  ['Qu','M','N','U','I','H'],
-  ['B','O','O','A','J','B'],
-  ['I','S','D','T','Y','T'],
-  ['E','E','I','N','S','U']
-]
+var standard = {
+  title: "Gobble",
+  blocks: [
+    ['A','A','E','E','G','N'],
+    ['A','C','H','O','P','S'],
+    ['E','E','G','H','N','W'],
+    ['E','H','R','T','V','W'],
+    ['R','I','L','X','E','D'],
+    ['O','S','S','E','I','T'],
+    ['A','P','F','S','K','F'],
+    ['T','A','O','O','W','T'],
+    ['T','E','L','R','Y','T'],
+    ['O','M','C','I','U','T'],
+    ['D','Y','V','E','R','L'],
+    ['H','L','R','N','Z','N'],
+    ['Qu','M','N','U','I','H'],
+    ['B','O','O','A','J','B'],
+    ['I','S','D','T','Y','T'],
+    ['E','E','I','N','S','U']
+  ],
+  timer_length: 181,
+  scoring: ""
+}
 
-// from boggle deluxe - see https://boardgamegeek.com/article/4975223#4975223
-var fiveByFive = [
-  ['A','A','A','F','R','S'],
-  ['A','A','E','E','E','E'],
-  ['A','A','F','I','R','S'],
-  ['A','D','E','N','N','N'],
-  ['A','E','E','E','E','M'],
-  ['A','E','E','G','M','U'],
-  ['A','E','G','M','N','N'],
-  ['A','F','I','R','S','Y'],
-  ['B','J','K','Qu','X','Z'],
-  ['C','C','N','S','T','W'],
-  ['C','E','I','I','L','T'],
-  ['C','E','I','L','P','T'],
-  ['C','E','I','P','S','T'],
-  ['D','H','H','N','O','T'],
-  ['D','H','H','L','O','R'],
-  ['D','H','L','N','O','R'],
-  ['D','D','L','N','O','R'],
-  ['E','I','I','I','T','T'],
-  ['E','M','O','T','T','T'],
-  ['E','N','S','S','S','U'],
-  ['F','I','P','R','S','Y'],
-  ['G','O','R','R','V','W'],
-  ['H','I','P','R','R','Y'],
-  ['N','O','O','T','U','W'],
-  ['O','O','O','T','T','U']
-]
+// from deluxe - see https://boardgamegeek.com/article/4975223#4975223
+var big = {
+  title: "Big Gobble",
+  blocks: [
+    ['A','A','A','F','R','S'],
+    ['A','A','E','E','E','E'],
+    ['A','A','F','I','R','S'],
+    ['A','D','E','N','N','N'],
+    ['A','E','E','E','E','M'],
+    ['A','E','E','G','M','U'],
+    ['A','E','G','M','N','N'],
+    ['A','F','I','R','S','Y'],
+    ['B','J','K','Qu','X','Z'],
+    ['C','C','N','S','T','W'],
+    ['C','E','I','I','L','T'],
+    ['C','E','I','L','P','T'],
+    ['C','E','I','P','S','T'],
+    ['D','H','H','N','O','T'],
+    ['D','H','H','L','O','R'],
+    ['D','H','L','N','O','R'],
+    ['D','D','L','N','O','R'],
+    ['E','I','I','I','T','T'],
+    ['E','M','O','T','T','T'],
+    ['E','N','S','S','S','U'],
+    ['F','I','P','R','S','Y'],
+    ['G','O','R','R','V','W'],
+    ['H','I','P','R','R','Y'],
+    ['N','O','O','T','U','W'],
+    ['O','O','O','T','T','U']
+  ],
+  timer_length: 181,
+  scoring: ""
+}
 
+var currentBlockSet = standard.blocks
 var board = []
+var timer = {
+  interval: undefined,
+  remaining: standard.timer_length,
+  total: standard.timer_length
+}
+
+function changeBlockSet(blockObject) {
+  currentBlockSet = blockObject.blocks
+  $('header').html(blockObject.title)
+  timer.remaining = blockObject.timer_length
+  timer.total = blockObject.timer_length
+}
 
 // using fisher yates shuffle: https://bost.ocks.org/mike/shuffle/
 var shuffle = function(array) {
@@ -97,22 +120,62 @@ function createBoard(blocks) {
   }
 }
 
-var currentTimer
-
-// TODO: fix bug with resetting timer
-function startTimer(timer) {
-  timer = setInterval(function() {
-    var $timer = $('#timer')
-    var newTime = ($timer.html() || 181) - 1
-    if (newTime > 10) {
-      $timer.html(newTime)
-    } else if (newTime > 0) {
-      $timer.html(newTime).addClass('warning')
+function startTimer() {
+  // reset timer if game over
+  $('#timer').html('')
+  timer.interval = setInterval(function() {
+    timer.remaining = timer.remaining - 1
+    if (timer.remaining > 10) {
+      $('#timer').html(timer.remaining)
+    } else if (timer.remaining > 0) {
+      $('#timer').html(timer.remaining).addClass('warning')
     } else {
-      $timer.html('Game Over').removeClass('warning')
-      clearInterval(timer)
+      $('#timer').html('Game Over').removeClass('warning')
+      timer.remaining = timer.total
+      clearInterval(timer.interval)
+      hideElement($('#pause'))
+      hideElement($('#end'))
+      showElement($('#start'))
+      showElement($('#standard'))
+      showElement($('#big'))
     }
   },1000)
+}
+
+function startGame() {
+  createBoard(currentBlockSet)
+  startTimer()
+  hideElement($('#start'))
+  hideElement($('#standard'))
+  hideElement($('#big'))
+  showElement($('#pause'))
+  showElement($('#end'))
+}
+
+function pauseGame() {
+  clearInterval(timer.interval)
+  hideElement($('#pause'))
+  showElement($('#unpause'))
+  $('.letter').addClass('white')
+}
+
+function unpauseGame() {
+  startTimer()
+  hideElement($('#unpause'))
+  showElement($('#pause'))
+  $('.letter').removeClass('white')
+}
+
+function endGame() {
+  timer.remaining = 0
+}
+
+function hideElement($element) {
+  $element.addClass('hidden')
+}
+
+function showElement($element) {
+  $element.removeClass('hidden')
 }
 
 // is word in board ============================================================

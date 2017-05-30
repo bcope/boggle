@@ -2,20 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Boggle</title>
+    <title>Gobble</title>
     <link type="text/css" rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
   </head>
   <body>
     <header>
-      Boggle
+      Gobble
     </header>
     <div id="board" class="column">
     </div>
     <nav>
+      <button type="button" name="button" id="start" class="button" onclick="startGame();">Start</button>
+      <button type="button" name="button" id="pause" class="button hidden" onclick="pauseGame();">Pause</button>
+      <button type="button" name="button" id="unpause" class="button hidden" onclick="unpauseGame();">Unpause</button>
+      <button type="button" name="button" id="end" class="button hidden" onclick="endGame();">End</button>
+      <button type="button" name="button" id="standard" class="button" onclick="changeBlockSet(standard);">Standard (4x4)</button>
+      <button type="button" name="button" id="big" class="button" onclick="changeBlockSet(big);">Big (5x5)</button>
       <div id="timer"></div>
-      <button type="button" name="button" onclick="startTimer(currentTimer);">Start Timer</button>
-      <button type="button" name="button" onclick="createBoard(fourByFour);">Reset Board</button>
     </nav>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
