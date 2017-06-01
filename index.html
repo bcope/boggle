@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
   <head>
     <meta charset="utf-8">
@@ -7,20 +7,21 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
   </head>
   <body>
-    <header>
-      Gobble
-    </header>
-    <div id="board" class="column">
-    </div>
-    <nav>
-      <button type="button" name="button" id="start" class="button" onclick="startGame();">Start</button>
-      <button type="button" name="button" id="pause" class="button hidden" onclick="pauseGame();">Pause</button>
-      <button type="button" name="button" id="unpause" class="button hidden" onclick="unpauseGame();">Unpause</button>
-      <button type="button" name="button" id="end" class="button hidden" onclick="endGame();">End</button>
-      <button type="button" name="button" id="standard" class="button" onclick="changeBlockSet(standard);">Standard (4x4)</button>
-      <button type="button" name="button" id="big" class="button" onclick="changeBlockSet(big);">Big (5x5)</button>
+    <div id="container" class="column">
+      <header>
+        Gobble
+      </header>
+      <nav class="row">
+        <button type="button" name="button" id="start" class="button" onclick="startGame();">Start</button>
+        <button type="button" name="button" id="pause" class="button hidden" onclick="pauseGame();">Pause</button>
+        <button type="button" name="button" id="unpause" class="button hidden" onclick="unpauseGame();">Unpause</button>
+        <button type="button" name="button" id="end" class="button hidden" onclick="endGame();">End</button>
+        <button type="button" name="button" id="standard" class="button" onclick="changeBlockSet(standard);">Standard (4x4)</button>
+        <button type="button" name="button" id="big" class="button" onclick="changeBlockSet(big);">Big (5x5)</button>
+      </nav>
+      <div id="board" class="column"></div>
       <div id="timer"></div>
-    </nav>
+    </div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </body>

@@ -1,9 +1,6 @@
 body {
   /*font-family: 'Roboto Mono', monospace;*/
   font-family: monospace;
-  max-width: 500px;
-  margin: auto;
-  align-items: center;
 }
 
 header {
@@ -15,16 +12,20 @@ header {
 #timer {
   font-size: 2em;
   font-weight: bold;
+  color: gray;
 }
 
 .row {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-content: center;
 }
 
 .column {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .up {
@@ -84,7 +85,6 @@ header {
 
 .letter {
   font-size: 3em;
-  /*padding: 0 11px;*/
   text-align: center;
   vertical-align: center;
   margin-top: 6px;
@@ -95,7 +95,7 @@ header {
 }
 
 .warning {
-  color: red;
+  color: black;
 }
 
 .hidden {
@@ -104,4 +104,8 @@ header {
 
 .white {
   color: white;
+}
+
+#container {
+  margin: 0 auto;
 }
