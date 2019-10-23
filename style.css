@@ -1,5 +1,5 @@
 body {
-  /*font-family: 'Roboto Mono', monospace;*/
+  font-family: 'Roboto Mono', monospace;
   font-family: monospace;
 }
 
@@ -26,6 +26,25 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.button {
+  color: gray !important;
+  background: #ffffff;
+  margin: 3px;
+  border: 2px solid gray !important;
+  border-radius: 4px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  font-family: 'Roboto Mono', monospace;
+  font-family: monospace;
+}
+
+.button:hover {
+  color: black !important;
+  border-radius: 30px;
+  border-color: gray !important;
+  transition: all 0.3s ease 0s;
 }
 
 .up {

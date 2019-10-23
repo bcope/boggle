@@ -1,6 +1,7 @@
 // blocks ======================================================================
 // must have a length that is a square number
 var standard = {
+  id: "standard",
   title: "Gobble",
   blocks: [
     ['A','A','E','E','G','N'],
@@ -26,6 +27,7 @@ var standard = {
 
 // from deluxe - see https://boardgamegeek.com/article/4975223#4975223
 var big = {
+  id: "big",
   title: "Big Gobble",
   blocks: [
     ['A','A','A','F','R','S'],
@@ -60,7 +62,7 @@ var big = {
 
 //  ================================================================
 // default to standard
-var currentBlockSet = standard.blocks
+var currentBlockSet = standard
 var timer = {
   interval: undefined,
   remaining: standard.timer_length,
@@ -68,11 +70,25 @@ var timer = {
   isPaused: false
 }
 
-function changeBlockSet(blockObject) {
-  currentBlockSet = blockObject.blocks
-  timer.remaining = blockObject.timer_length
-  timer.total = blockObject.timer_length
-  $('header').html(blockObject.title)
+function changeBlockSet(blockSet) {
+  currentBlockSet = blockSet
+  timer.remaining = blockSet.timer_length
+  timer.total = blockSet.timer_length
+  $('header').html(blockSet.title)
+  // hide appropriate 
+  if (currentBlockSet.id == 'big') {
+    hideElement($('#big'))
+    showElement($('#standard'))
+  }
+  if (currentBlockSet.id == 'standard') {
+    hideElement($('#standard'))
+    showElement($('#big'))
+  }
+  createBoard(blockSet)
+  $('.letter').addClass('white')
+  $('.underline').addClass('underlineRemoved')
+  $('.underlineRemoved').removeClass('underline')
+  $('#timer').html(blockSet.timer_length)
 }
 
 // using fisher yates shuffle: https://bost.ocks.org/mike/shuffle/
@@ -91,15 +107,14 @@ var shuffle = function(array) {
   return array;
 }
 
-function createBoard(blocks) {
+function createBoard(blockSet) {
   var $board = $('#board')
   var orientations = ['up','right','left','down']
   // delete existing letters if they exist
   $('.letter-container').remove()
   board = []
   function createRow(array) {
-    var $newRow = $('<div></div>')
-      .addClass('row')
+    var $newRow = $('<div></div>').addClass('row')
     var newRow = []
     for (var i = 0; i < array.length; i++) {
       // randomly pick a letter from the current block i
@@ -116,9 +131,9 @@ function createBoard(blocks) {
     board.push(newRow)
     return $newRow
   }
-  blocks = shuffle(blocks)
-  for (var j = 0; j < Math.sqrt(blocks.length); j++) {
-    $board.append(createRow(blocks.slice(j * Math.sqrt(blocks.length),(j + 1) * Math.sqrt(blocks.length))))
+  blockSet.blocks = shuffle(blockSet.blocks)
+  for (var j = 0; j < Math.sqrt(blockSet.blocks.length); j++) {
+    $board.append(createRow(blockSet.blocks.slice(j * Math.sqrt(blockSet.blocks.length),(j + 1) * Math.sqrt(blockSet.blocks.length))))
   }
 }
 
@@ -140,8 +155,12 @@ function startTimer() {
       hideElement($('#pause'))
       hideElement($('#end'))
       showElement($('#start'))
-      showElement($('#standard'))
-      showElement($('#big'))
+      // show appropriate 
+      if (currentBlockSet.id == 'big') {
+        showElement($('#standard'))
+      } else {
+        showElement($('#big'))
+      }
     }
   },1000)
 }
@@ -161,8 +180,9 @@ function pauseGame() {
   hideElement($('#pause'))
   hideElement($('#end'))
   showElement($('#unpause'))
-  // TODO: underlines are not affected by this class change
   $('.letter').addClass('white')
+  $('.underline').addClass('underlineRemoved')
+  $('.underlineRemoved').removeClass('underline')
 }
 
 function unpauseGame() {
@@ -171,6 +191,8 @@ function unpauseGame() {
   showElement($('#pause'))
   showElement($('#end'))
   $('.letter').removeClass('white')
+  $('.underlineRemoved').addClass('underline')
+  $('.underline').removeClass('underlineRemoved')
 }
 
 function endGame() {
