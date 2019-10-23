@@ -58,19 +58,21 @@ var big = {
   scoring: ""
 }
 
+//  ================================================================
+// default to standard
 var currentBlockSet = standard.blocks
-var board = []
 var timer = {
   interval: undefined,
   remaining: standard.timer_length,
-  total: standard.timer_length
+  total: standard.timer_length,
+  isPaused: false
 }
 
 function changeBlockSet(blockObject) {
   currentBlockSet = blockObject.blocks
-  $('header').html(blockObject.title)
   timer.remaining = blockObject.timer_length
   timer.total = blockObject.timer_length
+  $('header').html(blockObject.title)
 }
 
 // using fisher yates shuffle: https://bost.ocks.org/mike/shuffle/
@@ -124,7 +126,9 @@ function startTimer() {
   // reset timer if game over
   $('#timer').html('')
   timer.interval = setInterval(function() {
-    timer.remaining = timer.remaining - 1
+    if (!timer.isPaused) {
+      timer.remaining = timer.remaining - 1
+    }
     if (timer.remaining > 10) {
       $('#timer').html(timer.remaining)
     } else if (timer.remaining > 0) {
@@ -153,16 +157,19 @@ function startGame() {
 }
 
 function pauseGame() {
-  clearInterval(timer.interval)
+  timer.isPaused = true
   hideElement($('#pause'))
+  hideElement($('#end'))
   showElement($('#unpause'))
+  // TODO: underlines are not affected by this class change
   $('.letter').addClass('white')
 }
 
 function unpauseGame() {
-  startTimer()
+  timer.isPaused = false
   hideElement($('#unpause'))
   showElement($('#pause'))
+  showElement($('#end'))
   $('.letter').removeClass('white')
 }
 
@@ -179,6 +186,8 @@ function showElement($element) {
 }
 
 // is word in board ============================================================
+var board = []
+
 // helper functions
 function isLetter(letter,coord,board) {
   return board[coord[0]][coord[1]] == letter
